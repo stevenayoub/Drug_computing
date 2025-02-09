@@ -64,7 +64,7 @@ subroutine CalcEnergyForces(Pos, M, L, rc, PEnergy, Forces, Dim, NAtom)
     real(8), intent(in), dimension(0:NAtom-1, 0:Dim-1) :: Pos
     real(8), intent(in) :: L, rc
     real(8), intent(out) :: PEnergy
-    real(8), intent(out), dimension(0:NAtom-1, 0:Dim-1) :: Forces
+    real(8), intent(inout), dimension(0:NAtom-1, 0:Dim-1) :: Forces
 !f2py intent(in, out, inplace) :: Forces
     real(8), parameter :: k = 3000., r0 = 1.
     integer :: i, j
