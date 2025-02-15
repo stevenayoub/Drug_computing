@@ -168,22 +168,28 @@ Output:
 
 def ConjugateGradient(Pos, dx, EFracTolLS, EFracTolCG, M, L, Cut):
     """Performs a conjugate gradient search.
-Input:
-    Pos: starting positions, (N,3) array
-    dx: initial step amount
-    EFracTolLS: fractional energy tolerance for line search
-    EFracTolCG: fractional energy tolerance for conjugate gradient
-    M: Monomers per polymer
-    L: Box size
-    Cut: Cutoff
-Output:
-    PEnergy: value of potential energy at minimum
-    Pos: minimum energy (N,3) position array
-"""
-    # You will have to fill in your function from the energy minimization assignment here.
-    # If you did not get it correct, or if you are not sure you got it correct, contact me
-    # for solutions.
-
+    Input:
+        Pos: starting positions, (N,3) array
+        dx: initial step amount
+        EFracTolLS: fractional energy tolerance for line search
+        EFracTolCG: fractional energy tolerance for conjugate gradient
+        M: Monomers per polymer
+        L: Box size
+        Cut: Cutoff
+    Output:
+        PEnergy: value of potential energy at minimum
+        Pos: minimum energy (N,3) position array
+    """
+    PE, Forces = mdlib.calcenergyforces(Pos, M, L, Cut, np.zeros_like(Pos))
+    Dir = Forces
+    OldPE = 1.e300
+    while abs(PE - OldPE) > EFracTolCG * abs(PE):
+        OldPE = PE
+        PE, Pos = LineSearch(Pos, Dir, dx, EFracTolLS, M, L, Cut)
+        OldForces = Forces.copy()
+        PE, Forces = mdlib.calcenergyforces(Pos, M, L, Cut, Forces)
+        Gamma = np.sum((Forces - OldForces) * Forces) / np.sum(OldForces * OldForces)
+        Dir = Forces + Gamma *  Dir
     return PE, Pos
 
 
