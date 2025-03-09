@@ -1,7 +1,7 @@
 #NOTE:
 #everything below assumes unit atomic masses,
-
-
+import numpy as np 
+import mclib 
 
 def LineSearch(Pos, Dir, dx, EFracTol, M, L, Cut,
                Accel = 1.5, MaxInc = 10., MaxIter = 10000):
@@ -132,13 +132,13 @@ Output:
     PEMin = PEs[1]
 
     #if using visualization, update the display
-    if UseVisual:
-        if atomvis.Initialized:
-            #update the positions
-            atomvis.Update(PosMin)
-        else:
-            #initialize the visualization window
-            atomvis.Init(PosMin)
+    # if UseVisual:
+    #     if atomvis.Initialized:
+    #         #update the positions
+    #         atomvis.Update(PosMin)
+    #     else:
+    #         #initialize the visualization window
+    #         atomvis.Init(PosMin)
 
     return PEMin, PosMin
 
